@@ -1,2 +1,2 @@
 # kofi
-The kofi PHP framework
+A lightweight, module and component based PHP framework.
