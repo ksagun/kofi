@@ -6,7 +6,7 @@
         $this->data = $data;
 
         if(file_exists(__DIR__.'/card.component.html')){
-            include('button.component.html');
+            include('card.component.html');
         }
     }
  }

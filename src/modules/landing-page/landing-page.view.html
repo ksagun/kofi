@@ -1,7 +1,7 @@
 <div class="wrapper w-100 container-fluid d-flex flex-column justify-content-center">
   <div class="container w-75 vh-100 d-flex flex-column justify-content-center align-items-center">
     <h1>Thanks for using <span style="color: #35cc88ea; font-weight: 700">kofi</span> framework!</h1>
-    <p>A lightweight, module and component based PHP framework.</p>
+    <p>A lightweight and module based PHP framework.</p>
   </div>
   <div class="container w-75 vh-100 d-flex flex-column justify-content-center align-items-center">
     <h1 class="mb-4">Why use <span style="color: #35cc88ea; font-weight: 700">kofi</span> framework?</h1>
@@ -13,9 +13,197 @@
       <li>No need to worry about class organization</li>
     </ol>
 
-    <?php new Button(["label" =>
+    <!-- <?php new Button(["label" =>
     "Submit"]); ?>
     <?php new Button(["label" =>
-    "Confirm"]); ?>
+    "Confirm"]); ?> -->
+  </div>
+
+  <div class="container w-75 vh-100 d-flex flex-column justify-content-center">
+    <h1><b>Getting started using Apache with XAMPP.</b></h1>
+    <ol class="mb-6">
+      <li>Download the source code throught our git repository, url: <a href="https://github.com/ksagun/kofi">https://github.com/ksagun/kofi</a></li>
+      <li>To start a server, download XAMPP with the latest PHP version 8.0 and up (Easy installation guide)</li>
+      <li>
+        Configure virtual hosts: Goto <span style="color: #35cc88ea; font-weight: 700">C:/xampp/apache/conf/extra</span> and open
+        <span style="color: #35cc88ea; font-weight: 700">httpd-vhosts.conf</span>
+      </li>
+      <li>
+        <p>Add the following code and save.</p>
+        <pre>
+          <code class="language-xml">
+            &#60;VirtualHost *:80&#62;
+              DocumentRoot "YOUR_PROJECT_PATH"
+              ServerName your_preferred_server_name.com
+              &#60;Directory YOUR_PROJECT_PATH&#62;
+                  AllowOverride all
+                  Require all granted  
+              &#60;/Directory&#62;
+            &#60;/VirtualHost&#62;
+          </code>
+        </pre>
+      </li>
+      <li>
+        Now to make your virtual host work goto <span style="color: #35cc88ea; font-weight: 700">C:/Windows/system32/drivers/etc</span> and open the
+        <span style="color: #35cc88ea; font-weight: 700">hosts</span> file
+      </li>
+      <li>
+        <p>Add the following line and save.</p>
+        <pre>
+          <code class="language-xml">
+            127.0.0.1   server_name_in_your_virtual_hosts
+          </code>
+        </pre>
+      </li>
+      <li>Start apache server and you're ready to start using kofi!</li>
+    </ol>
+
+    <p style="color: #35cc88ea; font-weight: 700">*Note: Our CLI will be available soon, so creating modules and components will be easier!</p>
+  </div>
+
+  <div class="container w-75 vh-100 d-flex flex-column justify-content-center">
+    <h1>Starting with <b>app.php</b></h1>
+    <pre>
+    <code class="language-php">
+      include_once("classes/router.php");
+      require_once("autoload.php");
+      
+      class App {
+        public function init(){
+          $router = new Router([
+            "/" => [
+                "module" => new LandingPageModule, 
+                "guard" => new AuthGuard,
+                "form" => [
+                    ["url" => "/submit", "method" => "POST"]
+                ]
+            ]
+          ]);
+        }
+      }
+    </code>
+  </pre>
+    <p>This is where we start adding <b>url path</b>, <b>modules</b>, <b>forms</b> and <b>guards</b> but guards and forms are optional.</p>
+    <p>Inorder for the path to work and be routable, you will need to create a module which acts as the page of your website.</p>
+  </div>
+
+  <div class="container w-75 vh-100 d-flex flex-column justify-content-center">
+    <h1>Module</h1>
+    <p>Modules are the heart of your website pages, this is where you add your html, css, javascript, components and start working.</p>
+    <p>
+      kofi has a default module called <span style="color: #35cc88ea; font-weight: 700">LandingPageModule</span>, from there you can see how modules
+      are working within the router.
+    </p>
+
+    <pre>
+      <code class="language-php">
+        include_once('landing-page.controller.php');
+        include_once('landing-page.form.php');
+        
+        // Call components php file to autoload components
+        include_once('components/components.php');
+    
+        class LandingPageModule extends LandingPageController {
+    
+            public function init(){
+                include($this->template_name);
+                define("CONTROLLER_JS", $this->js);
+                define("CONTROLLER_STYLE", $this->style);
+            }
+    
+            public function initForm(){
+                $form = new LandingPageForm([]);
+                return $form;
+            }
+        }
+      </code>
+    </pre>
+
+    <p>Modules initializes your html, css, javascript, form, controller and components and acting as a wrapper.</p>
+    <p>
+      From the <b>app.php</b>, we have set a / path in the router and set the
+      <span style="color: #35cc88ea; font-weight: 700">LandingPageModule</span> in the module array key, so when the user navigates to / the router
+      will load the <span style="color: #35cc88ea; font-weight: 700"> LandingPageModule</span> and load the files associated with it.
+    </p>
+
+    <p>
+      <b>*NOTE: When creating a module you must follow the file naming convention below to make it readable and easy to understand.</b>
+    </p>
+
+    <ol>
+      <li>Module(directory): user-page</li>
+      <li>Controller: user-page.controller.js and user-page.controller.php</li>
+      <li>View: user-page.view.html</li>
+      <li>Form: user-page.form.php</li>
+      <li>CSS: user-page.style.css</li>
+    </ol>
+  </div>
+
+  <div class="container w-75 vh-100 d-flex flex-column justify-content-center">
+    <h1>Controller</h1>
+    <p>
+      Controller is where you do the business logic of your page and is inherited in module class so all the code in your controller is accessible in
+      the current page.
+    </p>
+
+    <p>The html, css and js file names are also initialized in the controller, you can modify the code structure if you like.</p>
+
+    <pre>
+      <code class="language-php">
+        class LandingPageController {
+          public string $template_name = "landing-page.view.html";
+          public string $style = "landing-page/landing-page.style.css";
+          public string $js = "landing-page/landing-page.controller.js";
+          
+          public function clearSetSession($key){
+              unset($_SESSION[$key]);
+          }
+      }
+      </code>
+    </pre>
+  </div>
+
+  <div class="container w-75 vh-100 d-flex flex-column justify-content-center">
+    <h1>Components</h1>
+    <p>Components are reusable elements within the module that provide specific functionalities. They are designed to encapsulate logic and presentation to promote code reusability and maintainability. Components can be easily loaded in PHP files using the component.php file.</p>
+    <div class="d-flex">
+      <?php new Card(["name" => "Kofi user 1", "id" => 1234567]); ?>
+      <?php new Card(["name" => "Kofi user 2", "id"=> 246810]); ?>
+    </div>
+    
+    <p>Components should be organized in a specific folder within the module directory. The recommended folder structure is as follows:</p>
+    
+    <pre>
+      <code class="language-xml"> 
+        - module
+          - sample-page
+            - components
+              - custom-button
+                custom-button.component.html
+                custom-button.component.php
+              - cards
+                cards.component.html
+                cards.component.php
+              components.php
+      </code>
+    </pre>
+    <p>Each component should have its own directory with the necessary files.</p>
+    <p>Define the HTML markup for the component in the .your-component-name.components.php file. This file will serve as the main entry point for the component.</p>
+    <p>Include <span>components.php</span> in the index.php of your module to autoload all components.</p>
+  </div>
+
+  <div class="container w-75 vh-100 d-flex flex-column justify-content-center">
+    <h1>That's all the basic usage of <span style="color: #35cc88ea; font-weight: 700">kofi</span>, you can now delete this module and start creating your own page!</h1>
+    <pre>
+      <code class="language-xml">
+        Things to remove:
+        1. landing-page
+        2. assets/js/prism.js - file
+        3. assets/css/prism.css - file 
+        4. assets/js/prism.js - script
+        5. assets/js/prism.js - script
+      </code>
+    </pre>
+   
   </div>
 </div>

@@ -1,14 +1,16 @@
 <?php
 
-class Router
+include_once("routes.php");
+
+class Router extends Routes
 {
-
     private static $current_url;
-
+    
     public function __construct($routes)
     {
         $request = $_SERVER['REQUEST_URI'];
         self::$current_url = trim($request);
+        self::set_current_route(self::$current_url);
       
         $params = $this->paramsMap($routes, self::$current_url);
         $formPathMatch = $this->formPathMatchFull($routes, self::$current_url);
@@ -18,17 +20,20 @@ class Router
         if(count($params) > 0 && $formPathMatch['hasform'] == 0){
             if(array_key_exists($params["url"], $routes)){
                 $url = $params["url"];
+                $pathParams = $params["data"];
                 $module = $routes[$url]["module"];
                 $guard = array_key_exists("guard", $routes[$url]) ? $routes[$url]["guard"] : false;
                 
                 if(is_object($module)){
                     if(is_object($guard)){  
                         if($guard->canActivate() == true){
+                            self::set_route_params($pathParams);
                             $module->init();
                         } else {
                             echo "You are not authorized to access this page.";
                         }
                     } else {
+                        self::set_route_params($pathParams);
                         $module->init();
                     }
                 } else {
@@ -50,9 +55,9 @@ class Router
             if(array_key_exists("error", $routes)){
                 $module = $routes["error"]["module"];
                 if(is_object($module)){
-                    $module->init();    
+                    $module->init(); 
                 } else {
-                    echo "Page not found";
+                    throw new Exception("Error route module must be object.");
                 }
             } else {
                 echo "Page not found";
@@ -60,13 +65,7 @@ class Router
         }
     }
 
-    public function routeMatch($url){
-        $url = ltrim($url, "/");
-        $url_map = explode("/", $url);
-        return $url_map;
-    }
-
-    public function formPathMatchFull($route, $url){
+    private function formPathMatchFull($route, $url){
         $matches = [];
         $formParentKey = null;
 
@@ -94,7 +93,7 @@ class Router
         }
     }
 
-    public function paramsMap($routes, $currenturl){
+    private function paramsMap($routes, $currenturl){
         $routeKeys = array_keys($routes);
         $matched = [];
 
@@ -112,10 +111,10 @@ class Router
         return $matched;
     }
 
-    public function pathMatch($pattern, $url ){
+    private function pathMatch($pattern, $url){
         $pattern = str_replace('/', '\/', $pattern); // Escape forward slashes in the pattern
         $pattern = '~^' . $pattern . '$~'; // Add start and end anchors to the pattern
-    
+
         // Extract placeholders from the pattern
         preg_match_all('~\{([^/}]+)\}~', $pattern, $matches);
         $placeholders = $matches[1];

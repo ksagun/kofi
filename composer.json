@@ -1,0 +1,8 @@
+{
+  "name": "kofi/kofi-framework",
+  "description": "A lightweight, module and component based PHP framework.",
+  "require": {
+    "php": ">=8.2",
+    "another-vendor/package": "1.*"
+  }
+}

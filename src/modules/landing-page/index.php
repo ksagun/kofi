@@ -8,11 +8,6 @@
     class LandingPageModule extends LandingPageController {
 
         public function init(){
-            /* Initialize files on page load:
-                1.HTML Template
-                2.Javascript file
-                3.CSS file
-            */
             include($this->template_name);
             define("CONTROLLER_JS", $this->js);
             define("CONTROLLER_STYLE", $this->style);
