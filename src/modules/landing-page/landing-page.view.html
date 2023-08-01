@@ -2,6 +2,7 @@
   <div class="container w-75 vh-100 d-flex flex-column justify-content-center align-items-center">
     <h1>Thanks for using <span style="color: #35cc88ea; font-weight: 700">kofi</span> framework!</h1>
     <p>A lightweight and module based PHP framework.</p>
+    <a href="#docs">Go to Docs</a>
   </div>
   <div class="container w-75 vh-100 d-flex flex-column justify-content-center align-items-center">
     <h1 class="mb-4">Why use <span style="color: #35cc88ea; font-weight: 700">kofi</span> framework?</h1>
@@ -12,11 +13,6 @@
       <li>Easily create components for reusability.</li>
       <li>No need to worry about class organization</li>
     </ol>
-
-    <!-- <?php new Button(["label" =>
-    "Submit"]); ?>
-    <?php new Button(["label" =>
-    "Confirm"]); ?> -->
   </div>
 
   <div class="container w-75 vh-100 d-flex flex-column justify-content-center">
@@ -61,7 +57,7 @@
     <p style="color: #35cc88ea; font-weight: 700">*Note: Our CLI will be available soon, so creating modules and components will be easier!</p>
   </div>
 
-  <div class="container w-75 vh-100 d-flex flex-column justify-content-center">
+  <div class="container w-75 vh-100 d-flex flex-column justify-content-center" id="docs">
     <h1>Starting with <b>app.php</b></h1>
     <pre>
     <code class="language-php">
@@ -158,21 +154,26 @@
           public function clearSetSession($key){
               unset($_SESSION[$key]);
           }
-      }
+        }
       </code>
     </pre>
   </div>
 
   <div class="container w-75 vh-100 d-flex flex-column justify-content-center">
     <h1>Components</h1>
-    <p>Components are reusable elements within the module that provide specific functionalities. They are designed to encapsulate logic and presentation to promote code reusability and maintainability. Components can be easily loaded in PHP files using the component.php file.</p>
+    <p>
+      Components are reusable elements within the module that provide specific functionalities. They are designed to encapsulate logic and
+      presentation to promote code reusability and maintainability. Components can be easily loaded in PHP files using the component.php file.
+    </p>
     <div class="d-flex">
-      <?php new Card(["name" => "Kofi user 1", "id" => 1234567]); ?>
-      <?php new Card(["name" => "Kofi user 2", "id"=> 246810]); ?>
+      <?php new Card(["name" =>
+      "Kofi user 1", "id" => 1234567]); ?>
+      <?php new Card(["name" =>
+      "Kofi user 2", "id"=> 246810]); ?>
     </div>
-    
+
     <p>Components should be organized in a specific folder within the module directory. The recommended folder structure is as follows:</p>
-    
+
     <pre>
       <code class="language-xml"> 
         - module
@@ -188,12 +189,18 @@
       </code>
     </pre>
     <p>Each component should have its own directory with the necessary files.</p>
-    <p>Define the HTML markup for the component in the .your-component-name.components.php file. This file will serve as the main entry point for the component.</p>
+    <p>
+      Define the HTML markup for the component in the .your-component-name.components.php file. This file will serve as the main entry point for the
+      component.
+    </p>
     <p>Include <span>components.php</span> in the index.php of your module to autoload all components.</p>
   </div>
 
   <div class="container w-75 vh-100 d-flex flex-column justify-content-center">
-    <h1>That's all the basic usage of <span style="color: #35cc88ea; font-weight: 700">kofi</span>, you can now delete this module and start creating your own page!</h1>
+    <h1>
+      That's all the basic usage of <span style="color: #35cc88ea; font-weight: 700">kofi</span>, you can now delete this module and start creating
+      your own page!
+    </h1>
     <pre>
       <code class="language-xml">
         Things to remove:
@@ -204,6 +211,5 @@
         5. assets/js/prism.js - script
       </code>
     </pre>
-   
   </div>
 </div>
