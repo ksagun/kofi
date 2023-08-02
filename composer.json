@@ -1,5 +1,5 @@
 {
-  "name": "kofi/kofi",
+  "name": "convertibrains/kofi",
   "description": "A lightweight, module and component based PHP framework.",
   "authors": [
     {
@@ -9,7 +9,7 @@
   ],
   "require": {
     "php": ">=8.0",
-    "kofi/kofi": "1.*"
+    "convertibrains/kofi": "1.*"
   },
   "license": "MIT"
 }
