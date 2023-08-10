@@ -2,7 +2,8 @@
 
 class LandingPageForm {
 
-    private $data;
+    private $data = [];
+    private $current_route;
 
     public function __construct($data)
     {
@@ -12,24 +13,53 @@ class LandingPageForm {
         }
     }
 
-    public function get(){
+    public function get($url, $invoke){
         echo "GET data sent!";
+        if($url == $this->current_route){
+            if(method_exists($this, $invoke)){
+                call_user_func([$this, $invoke], $this->data);
+            }
+        }
     }
 
-    public function post(){
+    public function post($url, $invoke){
         echo "POST data sent!";
+        if($url == $this->current_route){
+            if(method_exists($this, $invoke)){
+                call_user_func([$this, $invoke], $this->data);
+            }
+        }
     }
 
-    public function put(){
+    public function put($url, $invoke){
         echo "PUT data sent!";
+        if($url == $this->current_route){
+            if(method_exists($this, $invoke)){
+                call_user_func([$this, $invoke], $this->data);
+            }
+        }
     }
 
-    public function patch(){
+    public function patch($url, $invoke){
         echo "PATCH data sent!";
+        if($url == $this->current_route){
+            if(method_exists($this, $invoke)){
+                call_user_func([$this, $invoke], $this->data);
+            }
+        }
     }
 
-    public function delete(){
+    public function delete($url, $invoke){
         echo "DELETE data sent!";
+        if($url == $this->current_route){
+            if(method_exists($this, $invoke)){
+                call_user_func([$this, $invoke], $this->data);
+            }
+        }
+    }
+
+    public function invoke(){
+        echo "You envoked a function!";
     }
 }
 ?>

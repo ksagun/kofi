@@ -2,6 +2,7 @@
 // Initiialize app src
 include_once("classes/router.php");
 include_once("classes/authguard.php");
+include_once("classes/config.php");
 require_once("autoload.php");
 class App {
 
@@ -11,7 +12,7 @@ class App {
                 "module" => new LandingPageModule, 
                 "guard" => new AuthGuard,
                 "form" => [
-                    ["url" => "/submit", "method" => "POST"]
+                    ["url" => "/submit", "method" => "POST", "invoke" => "invoke"]
                 ],
             ],
             "error" => ["module" => new NotFoundPageModule]

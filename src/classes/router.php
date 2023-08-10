@@ -25,15 +25,16 @@ class Router extends Routes
                 $guard = array_key_exists("guard", $routes[$url]) ? $routes[$url]["guard"] : false;
                 
                 if(is_object($module)){
+                    self::set_route_params($pathParams);
                     if(is_object($guard)){  
                         if($guard->canActivate() == true){
-                            self::set_route_params($pathParams);
                             $module->init();
                         } else {
-                            echo "You are not authorized to access this page.";
+                            echo "<p class='text-center'>You are not authorized to access this page.</p>";
+                            header("HTTP/1.1 401 Unauthorized");
+                            exit;
                         }
                     } else {
-                        self::set_route_params($pathParams);
                         $module->init();
                     }
                 } else {
@@ -43,10 +44,10 @@ class Router extends Routes
         } else if($formPathMatch["hasform"] == 1){
             $module = $routes[$formPathMatch["key"]]["module"];
             $method = $formPathMatch["matches"][0];
-            if($method["method"] == 'POST') $module->initForm()->post();
-            else if($method["method"] == 'GET') $module->initForm()->get();
-            else if($method["method"] == 'PUT') $module->initForm()->put();
-            else if($method["method"] == 'PATCH') $module->initForm()->patch();
+            if($method["method"] == 'POST' && $_SERVER['REQUEST_METHOD'] == 'POST') $module->initForm()->post($method["url"],$method["invoke"]);
+            else if($method["method"] == 'GET' && $_SERVER['REQUEST_METHOD'] == 'GET') $module->initForm()->get($method["url"],$method["invoke"]);
+            else if($method["method"] == 'PUT' && $_SERVER['REQUEST_METHOD'] == 'PUT') $module->initForm()->put($method["url"],$method["invoke"]);
+            else if($method["method"] == 'PATCH' && $_SERVER['REQUEST_METHOD'] == 'PATCH') $module->initForm()->patch($method["url"],$method["invoke"]);
         } else{
             $notFound = true;   
         }
