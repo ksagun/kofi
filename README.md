@@ -63,7 +63,7 @@ A lightweight and module based PHP framework.
                   "module" => new LandingPageModule, 
                   "guard" => new AuthGuard,
                   "form" => [
-                      ["url" => "/submit", "method" => "POST"]
+                      ["url" => "/submit", "method" => "POST", "invoke" => "invoke"]
                   ]
               ]
             ]);
