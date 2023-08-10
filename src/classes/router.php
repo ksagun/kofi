@@ -44,6 +44,9 @@ class Router extends Routes
         } else if($formPathMatch["hasform"] == 1){
             $module = $routes[$formPathMatch["key"]]["module"];
             $method = $formPathMatch["matches"][0];
+
+            if(!array_key_exists("invoke",$method)) return exit("Please add invoke array key and add the function to be invoked.");
+
             if($method["method"] == 'POST' && $_SERVER['REQUEST_METHOD'] == 'POST') $module->initForm()->post($method["url"],$method["invoke"]);
             else if($method["method"] == 'GET' && $_SERVER['REQUEST_METHOD'] == 'GET') $module->initForm()->get($method["url"],$method["invoke"]);
             else if($method["method"] == 'PUT' && $_SERVER['REQUEST_METHOD'] == 'PUT') $module->initForm()->put($method["url"],$method["invoke"]);

@@ -12,7 +12,8 @@ class App {
                 "module" => new LandingPageModule, 
                 "guard" => new AuthGuard,
                 "form" => [
-                    ["url" => "/submit", "method" => "POST", "invoke" => "invoke"]
+                    ["url" => "/submit", "method" => "GET", "invoke" => "invoke"],
+                    ["url" => "/submit", "method" => "POST", "invoke" => "invoke2:rest"]
                 ],
             ],
             "error" => ["module" => new NotFoundPageModule]
