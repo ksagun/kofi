@@ -109,8 +109,13 @@ A lightweight and module based PHP framework.
         include_once('landing-page.controller.php');
         include_once('landing-page.form.php');
         include_once('components/components.php');
+          
         class LandingPageModule extends LandingPageController {
             public function init(){
+                include_once('components/components.php');
+                $components = new Components();
+                $components->initComponents();
+          
                 include($this->template_name);
                 define("CONTROLLER_JS", $this->js);
                 define("CONTROLLER_STYLE", $this->style);
@@ -141,6 +146,103 @@ A lightweight and module based PHP framework.
     <li>Form: user-page.form.php</li>
     <li>CSS: user-page.style.css</li>
 </ol>
+
+<h1>Controller</h1>
+<p>
+Controller is where you do the business logic of your page and is inherited in module class so all the code in your controller is accessible in
+the current page.
+</p>
+
+<p>The html, css and js file names are also initialized in the controller, you can modify the code structure if you like.</p>
+
+<pre>
+    <code class="language-php">
+        class LandingPageController {
+          public string $template_name = "landing-page.view.html";
+          public string $style = "landing-page/landing-page.style.css";
+          public string $js = "landing-page/landing-page.controller.js";
+          
+          public function clearSetSession($key){
+              unset($_SESSION[$key]);
+          }
+        }
+    </code>
+</pre>
+
+<h1>Form</h1>
+<p>Form is where you send your http request to server, the form class will be called when you add the "form" key in the router.</p>
+
+<p>
+    Inorder for a form to work you must specify a function name from the <b>landing-page.form.php</b> in the invoke key in router, the function will
+    be triggered when the url meets the condition.
+</p>
+
+<pre>
+    <code class="language-php">
+        class LandingPageForm {
+
+          private $data = [];
+          private $current_route;
+      
+          public function __construct($data)
+          {
+              // Get the passed data
+              if(is_array($data) && count($data) > 0){
+                  $this->data = $data;
+              }
+          }
+      
+          public function get($url, $invoke){
+              echo "GET data sent!";
+              if($url == $this->current_route){
+                  if(method_exists($this, $invoke)){
+                      call_user_func([$this, $invoke], $this->data);
+                  }
+              }
+          }
+      
+          public function post($url, $invoke){
+              echo "POST data sent!";
+              if($url == $this->current_route){
+                  if(method_exists($this, $invoke)){
+                      call_user_func([$this, $invoke], $this->data);
+                  }
+              }
+          }
+      
+          public function put($url, $invoke){
+              echo "PUT data sent!";
+              if($url == $this->current_route){
+                  if(method_exists($this, $invoke)){
+                      call_user_func([$this, $invoke], $this->data);
+                  }
+              }
+          }
+      
+          public function patch($url, $invoke){
+              echo "PATCH data sent!";
+              if($url == $this->current_route){
+                  if(method_exists($this, $invoke)){
+                      call_user_func([$this, $invoke], $this->data);
+                  }
+              }
+          }
+      
+          public function delete($url, $invoke){
+              echo "DELETE data sent!";
+              if($url == $this->current_route){
+                  if(method_exists($this, $invoke)){
+                      call_user_func([$this, $invoke], $this->data);
+                  }
+              }
+          }
+      
+          public function invoke(){
+              echo "You envoked a function!";
+          }
+        }
+    </code>
+</pre>
 
 
 <h1>Components</h1>
