@@ -59,18 +59,18 @@ A lightweight and module based PHP framework.
             require_once("autoload.php"); 
         
             public function init(){
-            $router = new Router([
-                "/" => [
-                    "module" => new LandingPageModule, 
-                    "guard" => new AuthGuard,
-                    "form" => [
-                        ["url" => "/submit", "method" => "GET", "invoke" => "invoke"],
-                        ["url" => "/submit", "method" => "POST", "invoke" => "invoke2:rest"]
+                $router = new Router([
+                    "/" => [
+                        "module" => new LandingPageModule, 
+                        "guard" => new AuthGuard,
+                        "form" => [
+                            ["url" => "/submit", "method" => "GET", "invoke" => "invoke"],
+                            ["url" => "/submit", "method" => "POST", "invoke" => "invoke2:rest"]
+                        ],
                     ],
-                ],
-                "error" => ["module" => new NotFoundPageModule]
-             ]);
-            }
+                    "error" => ["module" => new NotFoundPageModule]
+                  ]);
+                }
         </code>
     </pre>
     
