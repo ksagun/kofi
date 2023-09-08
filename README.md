@@ -68,8 +68,8 @@ A lightweight and module based PHP framework.
                 ],
             ],
             "error" => ["module" => new NotFoundPageModule]
-        ]);
-    }
+           ]);
+        }
     </code>
 </pre>
     
