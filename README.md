@@ -56,19 +56,20 @@ A lightweight and module based PHP framework.
       <code class="language-php">
         include_once("classes/router.php");
         require_once("autoload.php"); 
-        class App {
-          public function init(){
-            $router = new Router([
-              "/" => [
-                  "module" => new LandingPageModule, 
-                  "guard" => new AuthGuard,
-                  "form" => [
-                      ["url" => "/submit", "method" => "POST", "invoke" => "invoke"]
-                  ]
-              ]
-            ]);
-          }
-        }
+        
+        public function init(){
+        $router = new Router([
+            "/" => [
+                "module" => new LandingPageModule, 
+                "guard" => new AuthGuard,
+                "form" => [
+                    ["url" => "/submit", "method" => "GET", "invoke" => "invoke"],
+                    ["url" => "/submit", "method" => "POST", "invoke" => "invoke2:rest"]
+                ],
+            ],
+            "error" => ["module" => new NotFoundPageModule]
+        ]);
+    }
       </code>
     </pre>
     
@@ -95,7 +96,6 @@ A lightweight and module based PHP framework.
         To create components enter <b>fi create component <i>new-component</i> </b>
       </li>
     </ol>
-
 
 <h1>Module</h1>
 <p>Modules are the heart of your website pages, this is where you add your html, css, javascript, components and start working.</p>
@@ -179,71 +179,30 @@ the current page.
 
 <pre>
     <code class="language-php">
-        class LandingPageForm {
+      include_once($_SERVER['DOCUMENT_ROOT']."/src/classes/httproutes.php");
+      class LandingPageForm extends HttpRoutes{
 
-          private $data = [];
-          private $current_route;
-      
-          public function __construct($data)
-          {
-              // Get the passed data
-              if(is_array($data) && count($data) > 0){
-                  $this->data = $data;
-              }
-          }
-      
-          public function get($url, $invoke){
-              echo "GET data sent!";
-              if($url == $this->current_route){
-                  if(method_exists($this, $invoke)){
-                      call_user_func([$this, $invoke], $this->data);
-                  }
-              }
-          }
-      
-          public function post($url, $invoke){
-              echo "POST data sent!";
-              if($url == $this->current_route){
-                  if(method_exists($this, $invoke)){
-                      call_user_func([$this, $invoke], $this->data);
-                  }
-              }
-          }
-      
-          public function put($url, $invoke){
-              echo "PUT data sent!";
-              if($url == $this->current_route){
-                  if(method_exists($this, $invoke)){
-                      call_user_func([$this, $invoke], $this->data);
-                  }
-              }
-          }
-      
-          public function patch($url, $invoke){
-              echo "PATCH data sent!";
-              if($url == $this->current_route){
-                  if(method_exists($this, $invoke)){
-                      call_user_func([$this, $invoke], $this->data);
-                  }
-              }
-          }
-      
-          public function delete($url, $invoke){
-              echo "DELETE data sent!";
-              if($url == $this->current_route){
-                  if(method_exists($this, $invoke)){
-                      call_user_func([$this, $invoke], $this->data);
-                  }
-              }
-          }
-      
-          public function invoke(){
-              echo "You envoked a function!";
-          }
+        private $data = [];
+
+        public function __construct($data)
+        {
+            $this->current_route = $_SERVER['REQUEST_URI'];
+            // Get the passed data
+            if(is_array($data) && count($data) > 0){
+                $this->data = $data;
+            }
         }
+
+        public function invoke(){
+            echo "You invoked a function!";
+        }
+
+        public function invoke2(){
+            echo "You invoked the second function!";
+        }
+      }
     </code>
 </pre>
-
 
 <h1>Components</h1>
 <p>
