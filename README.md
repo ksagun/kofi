@@ -52,8 +52,8 @@ A lightweight and module based PHP framework.
     </ol>
 
 <h1>Starting with <b>app.php</b></h1>
-    <pre>
-      <code class="language-php">
+<pre>
+    <code class="language-php">
         include_once("classes/router.php");
         require_once("autoload.php"); 
         
@@ -70,8 +70,8 @@ A lightweight and module based PHP framework.
             "error" => ["module" => new NotFoundPageModule]
         ]);
     }
-      </code>
-    </pre>
+    </code>
+</pre>
     
 <p>This is where we start adding <b>url path</b>, <b>modules</b>, <b>forms</b> and <b>guards</b> but guards and forms are optional.</p>
 <p>Inorder for the path to work and be routable, you will need to create a module which acts as the page of your website.</p>
