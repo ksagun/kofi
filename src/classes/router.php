@@ -30,9 +30,13 @@ class Router extends Routes
                         if($guard->canActivate() == true){
                             $module->init();
                         } else {
-                            echo "<p class='text-center'>You are not authorized to access this page.</p>";
-                            header("HTTP/1.1 401 Unauthorized");
-                            exit;
+                            if($guard->redirect_url != ""){
+                                header("Location: ".$guard->redirect_url);
+                            } else {
+                                echo "<p class='text-center'>You are not authorized to access this page.</p>";
+                                header("HTTP/1.1 401 Unauthorized");
+                                exit;
+                            }
                         }
                     } else {
                         $module->init();
