@@ -105,14 +105,21 @@ class Router extends Routes
         $routeKeys = array_keys($routes);
         $matched = [];
 
-        for($i = 0; $i < count($routeKeys); $i++){
-            $result = $this->pathMatch($routeKeys[$i], $currenturl);
+        $matchedPathIndex = array_search($currenturl, $routeKeys);
+
+
+        if($matchedPathIndex !== false){
+            $result = $this->pathMatch($routeKeys[$matchedPathIndex], $currenturl);
             if ($result !== false) {
-                // echo "Matched values: " . implode(", ", $result)."<br>";
-                $matched = ["url" => $routeKeys[$i], "data" => $result];
-                break;
-            } else {
-                // echo "URL path does not match the expected pattern."."<br>";
+                $matched = ["url" => $routeKeys[$matchedPathIndex], "data" => $result];
+            }
+        } else {
+            for($i = 0; $i < count($routeKeys); $i++){
+                $result = $this->pathMatch($routeKeys[$i], $currenturl);
+                if ($result !== false) {
+                    $matched = ["url" => $routeKeys[$i], "data" => $result];
+                    break;
+                }
             }
         }
 
