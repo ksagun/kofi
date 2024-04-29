@@ -1,8 +1,6 @@
 <?php 
     require("src/app.php"); 
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
+    $app = new App();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,12 +21,13 @@
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     
-    <title>Document</title>
+    <title>
+        <?php echo $app->page_title; ?>
+    </title>
 </head>
 <body>
     <div class="app">
         <?php 
-            $app = new App();
             $app->init();
         ?>
     </div>

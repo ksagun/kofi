@@ -3,8 +3,10 @@
 include_once("classes/router.php");
 include_once("classes/authguard.php");
 include_once("classes/config.php");
+include_once("classes/core.php");
 require_once("autoload.php");
-class App {
+
+class App extends KofiCore{
 
     public function init(){
         $router = new Router([
