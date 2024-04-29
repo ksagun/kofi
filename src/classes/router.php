@@ -8,9 +8,10 @@ class Router extends Routes
     
     public function __construct($routes)
     {
-        $request = $_SERVER['REQUEST_URI'];
-        self::$current_url = trim($request);
+        $request = $this->parseUrl($_SERVER['REQUEST_URI']);
+        self::$current_url = trim($request['url']);
         self::set_current_route(self::$current_url);
+        self::set_query_params($request['query']);
       
         $params = $this->paramsMap($routes, self::$current_url);
         $formPathMatch = $this->formPathMatchFull($routes, self::$current_url);
@@ -147,6 +148,28 @@ class Router extends Routes
         } else {
             return false;
         }
+    }
+
+    private function parseUrl($url){
+        // Remove query params
+        $req = explode("?", htmlentities($url, ENT_QUOTES, "UTF-8"));
+       
+        $queryParams = count($req) > 1 ? explode("&amp;", $req[1]) : [];
+        
+        $data = [];
+        $res = null;
+
+        if(count($queryParams) > 0 && $queryParams[0] != ""){
+            foreach($queryParams as $query){
+                $q = explode("=", $query);
+                $data += [$q[0] => $q[1]];
+            }
+    
+            $json = json_encode($data);
+            $res = json_decode($json);
+        }
+
+        return ["url" => $req[0], "query" => $res];
     }
 
 
