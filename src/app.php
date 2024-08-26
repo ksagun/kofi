@@ -6,23 +6,29 @@ include_once("classes/config.php");
 include_once("classes/core.php");
 require_once("autoload.php");
 
-class App extends KofiCore{
+class App extends KofiCore
+{
+    private $router;
 
-    public function init(){
-        $router = new Router([
+    public function __construct()
+    {
+        $this->router = new Router([
             "/" => [
-                "module" => new LandingPageModule, 
+                "module" => new LandingPageModule,
                 "guard" => new AuthGuard,
                 "form" => [
                     ["url" => "/submit", "method" => "GET", "invoke" => "invoke"],
-                    ["url" => "/submit", "method" => "POST", "invoke" => "invoke2:rest"]
+                    ["url" => "/submit2", "method" => "POST", "invoke" => "invoke2:rest"]
                 ],
+                "title" => "Landing Page | kofi"
             ],
             "error" => ["module" => new NotFoundPageModule]
         ]);
+        $this->InitPageMappings();
+    }
+
+    public function init()
+    {
+        $this->router->start();
     }
 }
-
-
-
-?>

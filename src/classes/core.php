@@ -1,24 +1,27 @@
-<?php 
+<?php
 
-class KofiCore {
-    
+class KofiCore
+{
     public string $page_title;
 
-    public function __construct(){
+    public function InitPageMappings()
+    {
         $this->SessionStart();
-        $pageMaps = $this->PageMapping(["title"=> PAGE_TITLES]);
-        $this->page_title = $pageMaps['PAGE_TITLE'];
+        $pageMaps = $this->PageMapping(["title" => PAGE_TITLES]);
+        $this->page_title = array_key_exists('title', Routes::$selected_route) ? Routes::$selected_route['title'] : 'Document';
     }
 
-    public function SessionStart(){
+    public function SessionStart()
+    {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
     }
 
-    public function PageMapping($data){
+    public function PageMapping($data)
+    {
 
-        if(array_key_exists("title", $data)){
+        if (array_key_exists("title", $data)) {
             $request = $_SERVER['REQUEST_URI'];
             return [
                 "PAGE_TITLE" => array_key_exists($request, $data['title']) ? $data['title'][$request] : "Document"
@@ -30,4 +33,3 @@ class KofiCore {
         ];
     }
 }
-?>
