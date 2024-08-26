@@ -7,10 +7,10 @@ class LandingPageForm extends HttpRoutes
 
     public function __construct($data)
     {
-        $this->current_route = $data['url'];
         // Get the passed data
         if (is_array($data) && count($data) > 0) {
             $this->data = $data;
+            $this->current_route = $data['url'];
         }
     }
 
