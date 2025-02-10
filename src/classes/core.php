@@ -8,7 +8,9 @@ class KofiCore
     {
         $this->SessionStart();
         $pageMaps = $this->PageMapping(["title" => PAGE_TITLES]);
-        $this->page_title = array_key_exists('title', Routes::$selected_route) ? Routes::$selected_route['title'] : 'Document';
+        if (Routes::$selected_route && is_array(Routes::$selected_route)) {
+            $this->page_title = array_key_exists('title', Routes::$selected_route) ? Routes::$selected_route['title'] : 'Document';
+        }
     }
 
     public function SessionStart()
