@@ -22,7 +22,7 @@ class App extends KofiCore
                 ],
                 "title" => "Landing Page | kofi"
             ],
-            "error" => ["module" => new NotFoundPageModule]
+            "/error" => ["module" => new NotFoundPageModule, "title" => "Page not found"]
         ]);
         $this->InitPageMappings();
     }

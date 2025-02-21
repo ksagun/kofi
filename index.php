@@ -36,7 +36,7 @@ $app = new App();
         <?php
         //Use for standalone modules to isolate module from global function declarations here.
         $standalone = false;
-        if (array_key_exists("standalone", Routes::$selected_route)) {
+        if (is_array(Routes::$selected_route) & array_key_exists("standalone", Routes::$selected_route)) {
             $standalone = Routes::$selected_route['standalone'];
         }
         ?>

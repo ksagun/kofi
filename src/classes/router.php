@@ -70,10 +70,13 @@ class Router extends Routes
         }
 
         if ($notFound == 1) {
-            if (array_key_exists("error", $routes)) {
-                $module = $routes["error"]["module"];
+            if (array_key_exists("/error", $routes)) {
+                $module = $routes["/error"]["module"];
+                self::set_selected_route($routes["/"]);
+
                 if (is_object($module)) {
-                    $module->init();
+                    // $module->init();
+                    $this->route_module = $module;
                 } else {
                     throw new Exception("Error route module must be object.");
                 }
